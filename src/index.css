@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { background: #0b1e35; overflow-x: hidden; }
+body { font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+::selection { background: #f3701e; color: #0f0f10; }
+
+.grain::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.91 0 0 0 0 0.85 0 0 0 0 0.79 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.5; mix-blend-mode: overlay;
+}
+
+.tape { background: repeating-linear-gradient(45deg, transparent 0 6px, rgba(232,216,201,0.08) 6px 7px); }
+
+.kbd-chip {
+  border: 1px solid rgba(232,216,201,0.25);
+  background: rgba(232,216,201,0.04);
+}
+
+.scroll-marquee {
+  animation: marquee 28s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.tick { width: 1px; height: 8px; background: rgba(232,216,201,0.35); }
+.tick-tall { height: 14px; background: #f3701e; }

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maciej Polomski — Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: "#e8d8c9",
+              slate: "#4b607f",
+              ember: "#f3701e",
+              ink: "#0f0f10",
+              ink2: "#161618",
+            },
+            fontFamily: {
+              display: ["'Archivo Black'", "Impact", "sans-serif"],
+              sans: ["'Space Grotesk'", "system-ui", "sans-serif"],
+              mono: ["'JetBrains Mono'", "monospace"],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      html, body { background: #0f0f10; }
+      body { font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: #e8d8c9; }
+      ::selection { background: #f3701e; color: #0f0f10; }
+    </style>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  </head>
+  <body class="bg-ink text-cream">
+    <div id="root"></div>
+    <script type="text/babel" data-presets="react">
+      const dict = {
+        pl: {
+          nav: { work: "Projekty", about: "O mnie", contact: "Kontakt" },
+          hero: {
+            tag: "Dostępny do współpracy — 2026",
+            title1: "Full Stack",
+            title2: "Developer",
+            lead: "Buduję nowoczesne aplikacje webowe, strony firmowe i niestandardowe rozwiązania internetowe.",
+            cta1: "Zobacz projekty",
+            cta2: "Napisz do mnie",
+          },
+          about: {
+            kicker: "01 — O mnie",
+            title: "Programista, który dowozi.",
+            body: "Cześć, jestem Maciej. Programista full-stack z Polski, specjalizujący się w nowoczesnych aplikacjach webowych. Pracuję ze startupami i firmami, które potrzebują stabilnego partnera technologicznego.",
+          },
+          work: {
+            kicker: "02 — Projekty",
+            title: "Wybrane realizacje.",
+            items: [
+              { n: "01", name: "SaaS Dashboard", type: "Aplikacja webowa", year: "2025" },
+              { n: "02", name: "Strona firmowa — Studio Architektoniczne", type: "Strona korporacyjna", year: "2025" },
+              { n: "03", name: "Platforma rezerwacyjna", type: "Custom web app", year: "2024" },
+              { n: "04", name: "E-commerce headless", type: "Sklep internetowy", year: "2024" },
+            ],
+          },
+          contact: {
+            kicker: "03 — Kontakt",
+            title: "Masz projekt? Pogadajmy.",
+            cta: "Napisz e-mail",
+            email: "kontakt@maciejpolomski.space",
+          },
+          footer: { rights: "Wszelkie prawa zastrzeżone" },
+        },
+        en: {
+          nav: { work: "Work", about: "About", contact: "Contact" },
+          hero: {
+            tag: "Available for work — 2026",
+            title1: "Full Stack",
+            title2: "Developer",
+            lead: "I build modern web applications, company websites and custom web solutions.",
+            cta1: "See projects",
+            cta2: "Get in touch",
+          },
+          about: {
+            kicker: "01 — About",
+            title: "A developer who ships.",
+            body: "Hi, I'm Maciej. A full-stack developer from Poland focused on modern web applications. I work with startups and companies that need a reliable tech partner.",
+          },
+          work: {
+            kicker: "02 — Work",
+            title: "Selected projects.",
+            items: [
+              { n: "01", name: "SaaS Dashboard", type: "Web application", year: "2025" },
+              { n: "02", name: "Architecture Studio Website", type: "Corporate website", year: "2025" },
+              { n: "03", name: "Booking Platform", type: "Custom web app", year: "2024" },
+              { n: "04", name: "Headless E-commerce", type: "Online store", year: "2024" },
+            ],
+          },
+          contact: {
+            kicker: "03 — Contact",
+            title: "Got a project? Let's talk.",
+            cta: "Send email",
+            email: "kontakt@maciejpolomski.space",
+          },
+          footer: { rights: "All rights reserved" },
+        },
+      };
+
+      const { useEffect, useRef, useState } = React;
+
+      function CanvasBg() {
+        const ref = useRef(null);
+        useEffect(() => {
+          const canvas = ref.current;
+          const ctx = canvas.getContext("2d");
+          let raf, w, h, dpr;
+          function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            w = canvas.clientWidth; h = canvas.clientHeight;
+            canvas.width = w*dpr; canvas.height = h*dpr;
+            ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr, dpr);
+          }
+          let t = 0;
+          function draw() {
+            t += 0.004;
+            ctx.clearRect(0,0,w,h);
+            ctx.strokeStyle = "rgba(232,216,201,0.05)"; ctx.lineWidth = 1;
+            const step = 88;
+            const ox = Math.sin(t*0.5)*24, oy = Math.cos(t*0.4)*18;
+            for (let x = -step + (ox % step); x < w; x += step) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for (let y = -step + (oy % step); y < h; y += step) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+            const sy = ((t*50) % (h+200)) - 100;
+            const grad = ctx.createLinearGradient(0, sy-100, 0, sy+100);
+            grad.addColorStop(0,"rgba(243,112,30,0)");
+            grad.addColorStop(0.5,"rgba(243,112,30,0.05)");
+            grad.addColorStop(1,"rgba(243,112,30,0)");
+            ctx.fillStyle = grad; ctx.fillRect(0, sy-100, w, 200);
+            raf = requestAnimationFrame(draw);
+          }
+          resize(); draw();
+          const onR = () => resize();
+          window.addEventListener("resize", onR);
+          return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onR); };
+        }, []);
+        return <canvas ref={ref} className="fixed inset-0 w-full h-full pointer-events-none" style={{zIndex:0}} />;
+      }
+
+      function useLang() {
+        const [lang, setLang] = useState(() => localStorage.getItem("lang") || "pl");
+        useEffect(() => { localStorage.setItem("lang", lang); document.documentElement.lang = lang; }, [lang]);
+        return [lang, setLang];
+      }
+
+      function Topbar({ lang, setLang, t }) {
+        return (
+          <header className="fixed top-0 inset-x-0 z-30">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10 pt-5">
+              <div className="flex items-center justify-between">
+                <a href="#top" className="font-mono text-xs text-cream tracking-widest">M.POLOMSKI</a>
+                <nav className="hidden md:flex items-center gap-7 font-mono text-xs uppercase tracking-[0.18em] text-cream/60">
+                  <a href="#about" className="hover:text-cream transition">{t.nav.about}</a>
+                  <a href="#work" className="hover:text-cream transition">{t.nav.work}</a>
+                  <a href="#contact" className="hover:text-cream transition">{t.nav.contact}</a>
+                </nav>
+                <div className="flex items-center gap-1 font-mono text-xs">
+                  <button onClick={() => setLang("pl")} className={`px-2 py-1 ${lang === "pl" ? "text-ember" : "text-cream/50 hover:text-cream"}`}>PL</button>
+                  <span className="text-cream/30">/</span>
+                  <button onClick={() => setLang("en")} className={`px-2 py-1 ${lang === "en" ? "text-ember" : "text-cream/50 hover:text-cream"}`}>EN</button>
+                </div>
+              </div>
+            </div>
+          </header>
+        );
+      }
+
+      function Hero({ t }) {
+        return (
+          <section id="top" className="relative pt-40 md:pt-48 pb-24 md:pb-32">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+              <div className="flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] uppercase text-cream/50 mb-10">
+                <span className="w-1.5 h-1.5 rounded-full bg-ember" />
+                {t.hero.tag}
+              </div>
+              <div className="grid grid-cols-12 gap-8 md:gap-12 items-end">
+                <div className="col-span-12 lg:col-span-8">
+                  <h1 className="font-display text-[16vw] md:text-[10vw] leading-[0.9] tracking-tight">
+                    <span className="block text-cream">{t.hero.title1}</span>
+                    <span className="block text-ember">{t.hero.title2}<span className="text-cream">.</span></span>
+                  </h1>
+                  <p className="mt-10 max-w-xl text-cream/75 text-lg leading-relaxed text-pretty">{t.hero.lead}</p>
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <a href="#work" className="group inline-flex items-center gap-3 bg-ember text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.2em]">
+                      {t.hero.cta1}<span className="transition group-hover:translate-x-1">→</span>
+                    </a>
+                    <a href="#contact" className="inline-flex items-center gap-3 border border-cream/30 px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-cream hover:bg-cream hover:text-ink transition">{t.hero.cta2}</a>
+                  </div>
+                </div>
+                <div className="col-span-12 lg:col-span-4">
+                  <div className="relative max-w-[320px] lg:max-w-none mx-auto">
+                    <div className="relative aspect-[4/5] overflow-hidden border border-cream/15">
+                      <img src="public/maciej.png" alt="Maciej Polomski" className="absolute inset-0 w-full h-full object-cover object-top" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function About({ t }) {
+        return (
+          <section id="about" className="relative py-24 md:py-32 border-t border-cream/10">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+              <div className="grid grid-cols-12 gap-8 md:gap-12">
+                <div className="col-span-12 md:col-span-4">
+                  <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-ember">{t.about.kicker}</div>
+                </div>
+                <div className="col-span-12 md:col-span-8">
+                  <h2 className="font-display text-3xl md:text-5xl leading-[1] tracking-tight text-cream max-w-2xl">{t.about.title}</h2>
+                  <p className="mt-8 text-cream/75 text-lg leading-relaxed max-w-2xl text-pretty">{t.about.body}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Work({ t }) {
+        return (
+          <section id="work" className="relative py-24 md:py-32 border-t border-cream/10">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+              <div className="grid grid-cols-12 gap-8 md:gap-12 mb-12 md:mb-16">
+                <div className="col-span-12 md:col-span-4">
+                  <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-ember">{t.work.kicker}</div>
+                </div>
+                <div className="col-span-12 md:col-span-8">
+                  <h2 className="font-display text-3xl md:text-5xl leading-[1] tracking-tight text-cream max-w-2xl">{t.work.title}</h2>
+                </div>
+              </div>
+              <div className="border-t border-cream/15">
+                {t.work.items.map((p) => (
+                  <article key={p.n} className="group grid grid-cols-12 gap-4 md:gap-8 border-b border-cream/15 py-6 md:py-8 hover:bg-cream/[0.03] transition">
+                    <div className="col-span-2 md:col-span-1 font-mono text-xs text-cream/50 pt-1">{p.n}</div>
+                    <div className="col-span-10 md:col-span-5">
+                      <h3 className="font-display text-xl md:text-3xl text-cream group-hover:text-ember transition">{p.name}</h3>
+                    </div>
+                    <div className="col-span-6 md:col-span-3 font-mono text-[11px] uppercase tracking-[0.18em] text-cream/55 self-center">{p.type}</div>
+                    <div className="col-span-6 md:col-span-3 font-mono text-[11px] uppercase tracking-[0.18em] text-cream/55 self-center md:text-right">{p.year}</div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Contact({ t }) {
+        return (
+          <section id="contact" className="relative py-24 md:py-36 border-t border-cream/10">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+              <div className="grid grid-cols-12 gap-8 md:gap-12">
+                <div className="col-span-12 md:col-span-4">
+                  <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-ember">{t.contact.kicker}</div>
+                </div>
+                <div className="col-span-12 md:col-span-8">
+                  <h2 className="font-display text-4xl md:text-6xl leading-[0.95] tracking-tight text-cream max-w-2xl">{t.contact.title}</h2>
+                  <div className="mt-10 flex flex-col gap-4 items-start">
+                    <a href={`mailto:${t.contact.email}`} className="font-display text-2xl md:text-4xl text-cream hover:text-ember transition">{t.contact.email}</a>
+                    <a href={`mailto:${t.contact.email}`} className="group inline-flex items-center gap-3 bg-ember text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] mt-2">
+                      {t.contact.cta}<span className="transition group-hover:translate-x-1">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Footer({ t }) {
+        return (
+          <footer className="relative border-t border-cream/10 py-8">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-cream/45">
+              <div>© 2026 Maciej Polomski</div>
+              <div>{t.footer.rights}</div>
+            </div>
+          </footer>
+        );
+      }
+
+      function App() {
+        const [lang, setLang] = useLang();
+        const t = dict[lang];
+        return (
+          <div className="relative min-h-screen overflow-x-hidden">
+            <CanvasBg />
+            <div className="relative" style={{ zIndex: 2 }}>
+              <Topbar lang={lang} setLang={setLang} t={t} />
+              <Hero t={t} />
+              <About t={t} />
+              <Work t={t} />
+              <Contact t={t} />
+              <Footer t={t} />
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
