@@ -13,7 +13,7 @@ function useLang() {
 
 function Topbar({ lang, setLang, t }) {
   return (
-    <header className="fixed top-0 inset-x-0 z-30">
+    <header className="fixed top-0 inset-x-0 z-30 backdrop-blur-md">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 pt-5">
         <div className="flex items-center justify-between">
           <a href="#top" className="font-mono text-xs text-cream tracking-widest">M.POLOMSKI</a>
