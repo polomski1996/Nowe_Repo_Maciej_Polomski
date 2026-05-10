@@ -12,8 +12,24 @@ function useLang() {
 }
 
 function Topbar({ lang, setLang, t }) {
+  const [visible, setVisible] = React.useState(true);
+
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const curr = window.scrollY;
+      setVisible(curr < last || curr < 60);
+      last = curr;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 inset-x-0 z-30 backdrop-blur-md">
+    <header
+      className="fixed top-0 inset-x-0 z-30 backdrop-blur-md transition-transform duration-300"
+      style={{ transform: visible ? "translateY(0)" : "translateY(-100%)" }}
+    >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 pt-5">
         <div className="flex items-center justify-between">
           <a href="#top" className="font-mono text-xs text-cream tracking-widest">M.POLOMSKI</a>
