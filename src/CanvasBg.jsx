@@ -30,10 +30,10 @@ export default function CanvasBg() {
     let sx = -9999, sy = -9999;
 
     let t = 0;
-    const STEP = 29;
-    const STRENGTH = 48;   // max pixel bend
-    const RADIUS_SQ = 200 * 200; // gaussian falloff radius²
-    const SEG = 18;        // pixels per segment — controls curve smoothness
+    const STEP = 5;
+    const STRENGTH = 98;   // max pixel bend
+    const RADIUS_SQ = 90 * 90; // gaussian falloff radius²
+    const SEG = 48;        // pixels per segment — controls curve smoothness
 
     function draw() {
       t += 0.004;

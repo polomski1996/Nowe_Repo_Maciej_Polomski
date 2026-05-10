@@ -174,17 +174,21 @@ function Contact({ t }) {
             <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-ember">{t.contact.kicker}</div>
           </div>
           <div className="col-span-12 md:col-span-8">
-            <h2 className="font-display text-4xl md:text-6xl leading-[0.95] tracking-tight text-cream max-w-2xl">{t.contact.title}</h2>
+            <h2 className="font-display text-3xl md:text-5xl leading-[1.05] tracking-tight text-cream max-w-2xl">{t.contact.title}</h2>
+
             <div className="mt-10 flex flex-col gap-4 items-start">
-              <a
-                href={`mailto:${t.contact.email}`}
-                className="font-display text-xl md:text-4xl text-cream hover:text-ember transition break-all"
-              >
+              <a href={`mailto:${t.contact.email}`} className="font-mono text-base md:text-lg text-cream hover:text-ember transition break-all">
                 {t.contact.email}
               </a>
+              <a href={`tel:${t.contact.phone.replace(/\s/g, "")}`} className="font-mono text-base md:text-lg text-cream hover:text-ember transition">
+                {t.contact.phone}
+              </a>
+              <p className="font-mono text-[11px] tracking-[0.18em] uppercase text-cream/45 mt-1">
+                {t.contact.hours}
+              </p>
               <a
                 href={`mailto:${t.contact.email}`}
-                className="group inline-flex items-center gap-3 bg-ember text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] mt-2"
+                className="group inline-flex items-center gap-3 bg-ember text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] mt-4"
               >
                 {t.contact.cta}
                 <span className="transition group-hover:translate-x-1">→</span>

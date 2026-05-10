@@ -46,9 +46,11 @@ export const dict = {
     },
     contact: {
       kicker: "03 — Kontakt",
-      title: "Masz projekt? Pogadajmy.",
+      title: "Potrzebujesz strony internetowej dla twojego biznesu? Napisz do mnie!",
       cta: "Napisz e-mail",
-      email: "kontakt@maciejpolomski.space",
+      email: "maciejpolomskidev@gmail.com",
+      phone: "+48 798 474 071",
+      hours: "Pon – Sob, 08:00 – 19:00",
     },
     footer: {
       rights: "Wszelkie prawa zastrzeżone",
@@ -101,9 +103,11 @@ export const dict = {
     },
     contact: {
       kicker: "03 — Contact",
-      title: "Got a project? Let's talk.",
+      title: "Need a website for your business? Get in touch!",
       cta: "Send email",
-      email: "kontakt@maciejpolomski.space",
+      email: "maciejpolomskidev@gmail.com",
+      phone: "+48 798 474 071",
+      hours: "Mon – Sat, 08:00 – 19:00",
     },
     footer: {
       rights: "All rights reserved",
