@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { background: #0b1e35; overflow-x: hidden; }
+html, body { background: #0b1e35; overflow-x: hidden; cursor: url('/kursor-sm.png') 6 2, auto; }
 body { font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
 ::selection { background: #f3701e; color: #0f0f10; }
