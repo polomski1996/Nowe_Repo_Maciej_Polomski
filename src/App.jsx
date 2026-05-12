@@ -86,13 +86,28 @@ function Hero({ t }) {
 
           <div className="col-span-12 md:col-span-6">
             <div className="relative max-w-[340px] md:max-w-[85%] mx-auto">
-              <div className="relative aspect-[3/4] overflow-hidden border border-cream/15">
-                <img
-                  src="/maciej.png"
-                  alt="Maciej Polomski"
-                  className="absolute inset-0 w-full h-full object-cover object-top"
-                />
-              </div>
+              {/* Block — sizes the container, photo scales with it */}
+              <img
+                src="/bloczek.png"
+                alt=""
+                aria-hidden="true"
+                className="w-full"
+                draggable="false"
+              />
+              {/* ↓↓ Adjust these 4 values to position/scale the photo on the block face ↓↓
+                  All values are % of the container so they scale together at every breakpoint.
+                  Front face boundaries for reference: top≈15% left≈4% right≈66% bottom≈96% */}
+              <img
+                src="/maciej.png"
+                alt="Maciej Polomski"
+                className="absolute object-cover object-top"
+                style={{
+                  top:    "14%",
+                  left:   "4%",
+                  width:  "62%",
+                  height: "81%",
+                }}
+              />
             </div>
           </div>
         </div>
