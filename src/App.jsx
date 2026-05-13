@@ -88,7 +88,7 @@ function Hero({ t }) {
             <div className="relative max-w-[340px] md:max-w-[85%] mx-auto">
               {/* Block — sizes the container, photo scales with it */}
               <img
-                src="/bloczek.png"
+                src="/bloczek3.png"
                 alt=""
                 aria-hidden="true"
                 className="w-full"
