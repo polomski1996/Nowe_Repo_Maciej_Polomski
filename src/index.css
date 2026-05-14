@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { background: #0b1e35; overflow-x: hidden; cursor: url('/cur.png') 4 2, auto; }
-*, *:hover, *:focus, a, button, [role="button"], input, select, textarea, label { cursor: url('/cur.png') 4 2, auto !important; }
+html, body { background: #0b1e35; overflow-x: hidden; cursor: url('/cur2.png') 2 1, auto; }
+*, *:hover, *:focus, a, button, [role="button"], input, select, textarea, label { cursor: url('/cur2.png') 4 2, auto !important; }
 body { font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
 ::selection { background: #f3701e; color: #0f0f10; }

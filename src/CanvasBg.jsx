@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 
 export default function CanvasBg() {
   const ref = useRef(null);
-  const rawMouse = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = ref.current;
@@ -20,80 +19,72 @@ export default function CanvasBg() {
       ctx.scale(dpr, dpr);
     }
 
-    const onMove = (e) => {
-      rawMouse.current.x = e.clientX;
-      rawMouse.current.y = e.clientY;
-    };
-    window.addEventListener("mousemove", onMove);
-
-    // Smoothed cursor position (lerped each frame)
-    let sx = -9999, sy = -9999;
-
     let t = 0;
-    const STEP = 5;
-    const STRENGTH = 98;   // max pixel bend
-    const RADIUS_SQ = 90 * 90; // gaussian falloff radius²
-    const SEG = 48;        // pixels per segment — controls curve smoothness
+    const STEP = 10;   // grid density
+    const SEG  = 48;  // px per segment — controls curve smoothness
+
+    // Three wave layers travelling in slightly different directions & speeds
+    // Each layer: { amp, fy, fx_phase, speed } for vertical-line x-displacement
+    //             { amp, fx, fy_phase, speed } mirrors for horizontal-line y-displacement
+    const LAYERS = [
+      { amp: 190,   fy: 0.008, fx: 0.003,  speed: 1.28 },
+      { amp: 9,   fy: 0.015, fx: 0.006,  speed: 0.50 },
+      { amp: 2,   fy: 0.026, fx: 0.011,  speed: 0.85 },
+    ];
+
+    // Horizontal displacement for a vertical line's point at (x, y)
+    function waveX(x, y, t) {
+      let d = 0;
+      for (const L of LAYERS)
+        d += L.amp * Math.sin(y * L.fy + x * L.fx + t * L.speed);
+      return d;
+    }
+
+    // Vertical displacement for a horizontal line's point at (x, y)
+    function waveY(x, y, t) {
+      let d = 0;
+      for (const L of LAYERS)
+        d += L.amp * Math.sin(x * L.fy + y * L.fx + t * L.speed + 1.57);
+      return d;
+    }
 
     function draw() {
       t += 0.004;
-
-      // Lerp toward real cursor
-      const { x: mx, y: my } = rawMouse.current;
-      if (sx < -1000) { sx = mx; sy = my; }
-      sx += (mx - sx) * 0.09;
-      sy += (my - sy) * 0.09;
-
       ctx.clearRect(0, 0, w, h);
 
       ctx.strokeStyle = "rgba(232,216,201,0.05)";
       ctx.lineWidth = 1;
 
-      const ox = Math.sin(t * 0.5) * 24;
-      const oy = Math.cos(t * 0.4) * 18;
-
-      // Vertical lines — each point bends horizontally away from cursor
+      // Vertical lines — bend horizontally
       const vSegs = Math.ceil(h / SEG);
-      for (let x = -STEP + (ox % STEP); x < w + STEP; x += STEP) {
+      for (let x = 0; x <= w; x += STEP) {
         ctx.beginPath();
         for (let i = 0; i <= vSegs; i++) {
-          const y = i * SEG;
-          const dx = x - sx;
-          const dy = y - sy;
-          const distSq = dx * dx + dy * dy;
-          const dist = Math.sqrt(distSq) + 0.001;
-          const push = STRENGTH * Math.exp(-distSq / RADIUS_SQ);
-          const bx = x + (dx / dist) * push;
-          if (i === 0) ctx.moveTo(bx, y);
-          else ctx.lineTo(bx, y);
+          const y  = i * SEG;
+          const bx = x + waveX(x, y, t);
+          i === 0 ? ctx.moveTo(bx, y) : ctx.lineTo(bx, y);
         }
         ctx.stroke();
       }
 
-      // Horizontal lines — each point bends vertically away from cursor
+      // Horizontal lines — bend vertically
       const hSegs = Math.ceil(w / SEG);
-      for (let y = -STEP + (oy % STEP); y < h + STEP; y += STEP) {
+      for (let y = 0; y <= h; y += STEP) {
         ctx.beginPath();
         for (let i = 0; i <= hSegs; i++) {
-          const x = i * SEG;
-          const dx = x - sx;
-          const dy = y - sy;
-          const distSq = dx * dx + dy * dy;
-          const dist = Math.sqrt(distSq) + 0.001;
-          const push = STRENGTH * Math.exp(-distSq / RADIUS_SQ);
-          const by = y + (dy / dist) * push;
-          if (i === 0) ctx.moveTo(x, by);
-          else ctx.lineTo(x, by);
+          const x  = i * SEG;
+          const by = y + waveY(x, y, t);
+          i === 0 ? ctx.moveTo(x, by) : ctx.lineTo(x, by);
         }
         ctx.stroke();
       }
 
-      // Soft horizontal scanline
+      // Soft scanline sweep
       const scanY = ((t * 50) % (h + 200)) - 100;
-      const grad = ctx.createLinearGradient(0, scanY - 100, 0, scanY + 100);
-      grad.addColorStop(0, "rgba(243,112,30,0)");
+      const grad  = ctx.createLinearGradient(0, scanY - 100, 0, scanY + 100);
+      grad.addColorStop(0,   "rgba(243,112,30,0)");
       grad.addColorStop(0.5, "rgba(243,112,30,0.05)");
-      grad.addColorStop(1, "rgba(243,112,30,0)");
+      grad.addColorStop(1,   "rgba(243,112,30,0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, scanY - 100, w, 200);
 
@@ -106,7 +97,6 @@ export default function CanvasBg() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMove);
     };
   }, []);
 
