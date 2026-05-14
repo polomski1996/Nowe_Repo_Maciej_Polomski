@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { background: #0b1e35; overflow-x: hidden; cursor: url('/kursor-sm.png') 6 2, auto; }
+html, body { background: #0b1e35; overflow-x: hidden; cursor: url('/kursor2-sm.png') 8 4, auto; }
+*, *:hover, *:focus, a, button, [role="button"], input, select, textarea, label { cursor: url('/kursor2-sm.png') 8 4, auto !important; }
 body { font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
 ::selection { background: #f3701e; color: #0f0f10; }
